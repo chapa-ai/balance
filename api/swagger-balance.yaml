@@ -1,0 +1,118 @@
+openapi: "3.0.0"
+info:
+  title: "Balance menu"
+  version: '1'
+paths:
+  '/balance/pay':
+    post:
+      summary: crediting /debiting money
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/Model'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/ModelResponse'
+        '500':
+          $ref: '#/components/responses/StatusCode500'
+  "/balance/users":
+    post:
+      summary: transfer money from user to user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/BetweenUsers'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/ModelResponse'
+        '500':
+          $ref: '#/components/responses/StatusCode500'
+  "/balance/get":
+    post:
+      summary: Find out the balance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/User'
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/ModelResponse'
+        '500':
+          $ref: '#/components/responses/StatusCode500'
+
+  responses:
+    StatusCode500:
+      description: Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: error message
+definitions:
+  Model:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: user id
+        example: 9
+      sum:
+        type: integer
+        description: amount of money
+        example: 1
+  ModelResponse:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: user id
+        example: 9
+      balance:
+        type: number
+        description: user balance
+        example: 1000
+  BetweenUsers:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: first user id
+        example: 7
+      userId2:
+        type: string
+        description: second user id
+        example: 9
+      sum:
+        type: integer
+        description: amount of money
+        example: 1000
+  User:
+    type: object
+    properties:
+      userId:
+        type: string
+        description: user id
+        example: 9
+  
